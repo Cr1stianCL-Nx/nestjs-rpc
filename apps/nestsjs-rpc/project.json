@@ -1,0 +1,74 @@
+{
+  "name": "nestsjs-rpc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nestsjs-rpc/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/nestsjs-rpc",
+        "main": "apps/nestsjs-rpc/src/main.ts",
+        "tsConfig": "apps/nestsjs-rpc/tsconfig.app.json",
+        "assets": [
+          "apps/nestsjs-rpc/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/nestsjs-rpc/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nestsjs-rpc:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nestsjs-rpc:build:development"
+        },
+        "production": {
+          "buildTarget": "nestsjs-rpc:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/nestsjs-rpc/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/nestsjs-rpc/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
